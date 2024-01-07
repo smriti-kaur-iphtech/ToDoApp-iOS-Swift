@@ -10,7 +10,6 @@ class ToDoViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var textfieldsCreated = [DataModel]()
-    var identifier = false
     var selectedCellList  = [IndexPath]()
     var items = [String]()
     let userDefaults = UserDefaults()
@@ -61,7 +60,7 @@ class ToDoViewController: UIViewController {
         sampleTextField?.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
         // storing textfields in textfieldsCreated array od type DataModel
         if let sampleTextField = sampleTextField {
-            var dataModel = DataModel(textfield: sampleTextField)
+            let dataModel = DataModel(textfield: sampleTextField)
             textfieldsCreated.append(dataModel)
         }
     }
@@ -134,6 +133,13 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         cell.contentView.addSubview(textfieldsCreated[indexPath.row].textfield)
+        
+        if textfieldsCreated[indexPath.row].taskDoneStatus {
+            cell.checkBoxView.backgroundColor = .systemBlue
+        } else {
+            cell.checkBoxView.backgroundColor = .white
+        }
+        
         return cell
     }
     
@@ -143,13 +149,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
         let textEntered = textfieldsCreated[indexPath.row].textfield.text
         
         print("\(String(describing: textEntered))")
-        
-        // Add checkmark on selection
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -159,7 +159,6 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            print("value at index indexPath.row ==== \(textFieldHolderArray[indexPath.row].text)")
             let index = indexPath.row + 1
             print("index ==== \(index)")
             // Remove the corresponding data from UserDefaults and adjust the count
@@ -215,11 +214,11 @@ extension ToDoViewController: MyTableViewCellDelegate {
     func didTapCheckboxView(cell: CustomTableViewCell) {
         if let indexPath = tableView.indexPath(for: cell) {
             print("User did tap cell with index: \(indexPath.row)")
-            self.identifier = !identifier
-            if self.identifier{
+            textfieldsCreated[indexPath.row].taskDoneStatus = !textfieldsCreated[indexPath.row].taskDoneStatus
+ 
+            if textfieldsCreated[indexPath.row].taskDoneStatus {
                 cell.checkBoxView.backgroundColor = .systemBlue
-            }
-            else {
+            } else {
                 cell.checkBoxView.backgroundColor = .white
             }
         }
