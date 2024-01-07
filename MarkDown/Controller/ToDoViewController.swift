@@ -9,8 +9,7 @@ import UIKit
 class ToDoViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
-    var textFieldHolderArray = [UITextField]()
+    var textfieldsCreated = [DataModel]()
     var identifier = false
     var selectedCellList  = [IndexPath]()
     var items = [String]()
@@ -60,7 +59,11 @@ class ToDoViewController: UIViewController {
         sampleTextField?.returnKeyType = UIReturnKeyType.done
         sampleTextField?.clearButtonMode = UITextField.ViewMode.whileEditing
         sampleTextField?.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        textFieldHolderArray.append(sampleTextField!)
+        // storing textfields in textfieldsCreated array od type DataModel
+        if let sampleTextField = sampleTextField {
+            var dataModel = DataModel(textfield: sampleTextField)
+            textfieldsCreated.append(dataModel)
+        }
     }
     
     @objc func keyboardWillShow(notification: Notification) {
@@ -95,13 +98,13 @@ class ToDoViewController: UIViewController {
     
     func updateTask() {
         items.removeAll()
-        textFieldHolderArray.removeAll()
+        textfieldsCreated.removeAll()
         guard let count = UserDefaults().value(forKey: "count") as? Int else {
             return
         }
         print("count ==== \(count)")
         let end = count
-        for x in 0...end {
+        for x in -1...end {
             print("x === \(x)")
             if let task = UserDefaults().value(forKey: "task_\(x)") as? String {
                 print("task received == \(task) at x = \(x)")
@@ -116,7 +119,7 @@ class ToDoViewController: UIViewController {
 extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return textFieldHolderArray.count
+        return textfieldsCreated.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -130,15 +133,23 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
                 subview.removeFromSuperview()
             }
         }
-        cell.contentView.addSubview(textFieldHolderArray[indexPath.row])
+        cell.contentView.addSubview(textfieldsCreated[indexPath.row].textfield)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         print("you tapped in section \(indexPath.section) at row \(indexPath.row)")
-        let textEntered = textFieldHolderArray[indexPath.row].text
+        let textEntered = textfieldsCreated[indexPath.row].textfield.text
+        
         print("\(String(describing: textEntered))")
+        
+        // Add checkmark on selection
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -148,7 +159,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("value at index indexPath.row ==== \(textFieldHolderArray[indexPath.row].text)")
+//            print("value at index indexPath.row ==== \(textFieldHolderArray[indexPath.row].text)")
             let index = indexPath.row + 1
             print("index ==== \(index)")
             // Remove the corresponding data from UserDefaults and adjust the count
@@ -167,7 +178,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
                 UserDefaults().set(changeCount, forKey: "count")
             }
             // Remove the item from the array
-            textFieldHolderArray.remove(at: indexPath.row)
+            textfieldsCreated.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -176,7 +187,7 @@ extension ToDoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func saveEntryToUserDefault(indexReceived: Int) {
-        if let text = textFieldHolderArray[indexReceived].text, !text.isEmpty {
+        if let text = textfieldsCreated[indexReceived].textfield.text, !text.isEmpty {
             print(text)
             items.append(text)
             guard let count = UserDefaults().value(forKey: "count") as? Int else {

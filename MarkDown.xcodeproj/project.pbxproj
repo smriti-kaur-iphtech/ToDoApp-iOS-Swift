@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B382E782B4ADF4500D9F8D2 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B382E772B4ADF4500D9F8D2 /* DataModel.swift */; };
 		3B5128822AF8E4DA003185B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5128812AF8E4DA003185B5 /* AppDelegate.swift */; };
 		3B5128842AF8E4DA003185B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5128832AF8E4DA003185B5 /* SceneDelegate.swift */; };
 		3B5128862AF8E4DA003185B5 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5128852AF8E4DA003185B5 /* ToDoViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B382E772B4ADF4500D9F8D2 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3B51287E2AF8E4DA003185B5 /* MarkDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5128812AF8E4DA003185B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B5128832AF8E4DA003185B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,14 +62,39 @@
 			children = (
 				3B5128812AF8E4DA003185B5 /* AppDelegate.swift */,
 				3B5128832AF8E4DA003185B5 /* SceneDelegate.swift */,
-				3B5128852AF8E4DA003185B5 /* ToDoViewController.swift */,
+				3B6988182B4AF0360033DAE8 /* Model */,
+				3B69881A2B4AF07A0033DAE8 /* View */,
+				3B6988192B4AF0490033DAE8 /* Controller */,
 				3B5128872AF8E4DA003185B5 /* Main.storyboard */,
 				3B51288A2AF8E4E2003185B5 /* Assets.xcassets */,
 				3B51288C2AF8E4E2003185B5 /* LaunchScreen.storyboard */,
 				3B51288F2AF8E4E2003185B5 /* Info.plist */,
-				3B5128952AF8F04D003185B5 /* CustomTableViewCell.swift */,
 			);
 			path = MarkDown;
+			sourceTree = "<group>";
+		};
+		3B6988182B4AF0360033DAE8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3B382E772B4ADF4500D9F8D2 /* DataModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3B6988192B4AF0490033DAE8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3B5128852AF8E4DA003185B5 /* ToDoViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3B69881A2B4AF07A0033DAE8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3B5128952AF8F04D003185B5 /* CustomTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B382E782B4ADF4500D9F8D2 /* DataModel.swift in Sources */,
 				3B5128862AF8E4DA003185B5 /* ToDoViewController.swift in Sources */,
 				3B5128822AF8E4DA003185B5 /* AppDelegate.swift in Sources */,
 				3B5128962AF8F04D003185B5 /* CustomTableViewCell.swift in Sources */,
